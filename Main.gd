@@ -2,6 +2,7 @@ extends Node
 
 export (PackedScene) var Mob
 var score
+var mob_count
 
 
 func _ready():
@@ -19,9 +20,10 @@ func game_over():
 
 func new_game():
 	score = 0
+	mob_count = 0
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
-	$HUD.update_score(score)
+	$HUD.update_score(score, mob_count)
 	$HUD.show_message("Get Ready")
 	$Music.play()
 
@@ -32,6 +34,7 @@ func _on_MobTimer_timeout():
 	# Create a Mob instance and add it to the scene.
 	var mob = Mob.instance()
 	add_child(mob)
+	mob_count += 1
 	# Set the mob's direction perpendicular to the path direction.
 	var direction = $MobPath/MobSpawnLocation.rotation + PI / 2
 	# Set the mob's position to a random location.
@@ -46,9 +49,13 @@ func _on_MobTimer_timeout():
 
 func _on_ScoreTimer_timeout():
 	score += 1
-	$HUD.update_score(score)
+	$HUD.update_score(score, mob_count)
 
 
 func _on_StartTimer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()
+
+
+func _on_Mob_mob_exited():
+	mob_count -= 1

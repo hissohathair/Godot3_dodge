@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+signal mob_exited
+
 export var min_speed = 150
 export var max_speed = 250
 
@@ -11,3 +13,5 @@ func _ready():
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
+	print_debug("emitting mob_exite signal")
+	emit_signal("mob_exited")

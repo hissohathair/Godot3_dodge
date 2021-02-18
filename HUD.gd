@@ -18,8 +18,8 @@ func show_game_over():
 	$StartButton.show()
 
 
-func update_score(score):
-	$ScoreLabel.text = str(score)
+func update_score(score, mob_count):
+	$ScoreLabel.text = str(score) + "/" + str(mob_count)
 
 
 func _on_StartButton_pressed():
